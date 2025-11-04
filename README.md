@@ -1,7 +1,7 @@
 # Guestbook Web Application
 
 ## Посилання на репозиторій
-[https://github.com/username/guestbook](https://github.com/username/guestbook)
+https://github.com/DmitryLemeshko/GUESTBOOK
 
 ## Версії
 - JDK: 19
