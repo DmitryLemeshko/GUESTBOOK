@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Книга відгуків</title>
+</head>
+<body>
+<h1>Книга відгуків</h1>
+
+<form id="commentForm">
+    <label>Автор:</label><br>
+    <input type="text" id="author" maxlength="64" required><br><br>
+
+    <label>Відгук:</label><br>
+    <textarea id="text" maxlength="1000" required></textarea><br><br>
+
+    <button type="submit">Додати</button>
+</form>
+
+<h2>Відгуки:</h2>
+<ul id="comments"></ul>
+
+<script>
+    async function loadComments() {
+        const response = await fetch('comments');
+        const comments = await response.json();
+        const list = document.getElementById('comments');
+        list.innerHTML = '';
+        comments.forEach(c => {
+            const li = document.createElement('li');
+            li.textContent = `${c.author}: ${c.text}`;
+            list.appendChild(li);
+        });
+    }
+
+    document.getElementById('commentForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const author = document.getElementById('author').value;
+        const text = document.getElementById('text').value;
+
+        await fetch('comments', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({author, text})
+        });
+
+        document.getElementById('author').value = '';
+        document.getElementById('text').value = '';
+        await loadComments();
+    });
+
+    loadComments();
+</script>
+
+</body>
+</html>
